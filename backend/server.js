@@ -18,8 +18,9 @@ app.use('/api/weather', weatherRoutes);
     await weatherService.fetchAndSaveWeatherData();
 })();
 
-// Schedule the job to run every 5 minute
-cron.schedule('*/5 * * * *', weatherService.fetchAndSaveWeatherData);
+// If you want Schedule the job to run every 5 minute just change '*/5 * * * *' and for 30 minutes just change '*/30 * * * *'
+// Schedule the job to run every minute
+cron.schedule('*/30 * * * *', weatherService.fetchAndSaveWeatherData);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

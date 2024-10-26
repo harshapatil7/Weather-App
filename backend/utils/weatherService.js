@@ -14,10 +14,10 @@ const fetchWeatherData = async (city) => {
         temp: tempC,
         feels_like: feelsLikeC,
         dt: response.data.dt,
-        windSpeed: response.data.wind.speed, // Wind speed
-        humidity: response.data.main.humidity, // Humidity
-        minTemp: response.data.main.temp_min - 273.15, // Min temperature
-        maxTemp: response.data.main.temp_max - 273.15  // Max temperature
+        windSpeed: response.data.wind.speed, 
+        humidity: response.data.main.humidity, 
+        minTemp: response.data.main.temp_min - 273.15, 
+        maxTemp: response.data.main.temp_max - 273.15  
     };
 };
 
@@ -49,7 +49,5 @@ const fetchAndSaveWeatherData = async () => {
 
     return Promise.all(saveWeatherPromises); // Ensure all cities’ data are saved before continuing
 };
-
-
 
 module.exports = { fetchWeatherData, fetchAndSaveWeatherData };

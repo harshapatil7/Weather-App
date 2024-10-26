@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
 const WeatherSummary = ({ summary }) => {
-    const [isCelsius, setIsCelsius] = useState(true); // State to track the temperature unit
+    const [isCelsius, setIsCelsius] = useState(true); 
 
     // Convert temperature from Celsius to Kelvin and vice versa
     const convertTemperature = (temp) => {
+        if (temp === undefined) return 'N/A'; // Handle undefined temp
         return isCelsius ? temp.toFixed(1) : (temp + 273.15).toFixed(2); // Keep Celsius to 1 decimal, Kelvin to 2 decimals
     };
 

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
-const WeatherForm = ({ onFetchWeather }) => {
+const WeatherForm = ({ onFetchWeather, onCitySelect }) => {
     const [threshold, setThreshold] = useState('');
     const [weatherCondition, setWeatherCondition] = useState('');
     const [email, setEmail] = useState('');
     const cities = ['Delhi', 'Mumbai', 'Chennai', 'Bangalore', 'Kolkata', 'Hyderabad'];
 
     const handleCityFetch = (city) => {
+        onCitySelect(city);
         onFetchWeather(city, Number(threshold), weatherCondition, email); // Pass all inputs as-is
     };
 
@@ -24,7 +25,7 @@ const WeatherForm = ({ onFetchWeather }) => {
                         />
                     </label>
                 </div>
-                <br/>
+                <br />
                 <div>
                     <label>
                         Weather Condition:
@@ -36,7 +37,7 @@ const WeatherForm = ({ onFetchWeather }) => {
                         />
                     </label>
                 </div>
-                <br/>
+                <br />
                 <div>
                     <label>
                         Email for Alerts (optional):
@@ -48,7 +49,7 @@ const WeatherForm = ({ onFetchWeather }) => {
                         />
                     </label>
                 </div>
-                <br/>
+                <br />
             </form>
             <div>
                 {cities.map((city) => (

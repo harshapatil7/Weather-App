@@ -2,6 +2,34 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const { getCityWeatherModel } = require('../models/weatherSummary');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+router.post('/generateInsights', async (req, res) => {
+    const { historicalData } = req.body;
+
+    const tempTrend = historicalData.map(data => data.temp).join(', ');
+    const humidityTrend = historicalData.map(data => data.humidity).join(', ');
+    const conditionTrend = historicalData.map(data => data.dominantCondition).join(', ');
+
+    const prompt = `
+        Based on these temperature trends (${tempTrend}), humidity levels (${humidityTrend}), 
+        and dominant weather conditions (${conditionTrend}), provide a reasoned explanation 
+        for the current weather pattern observed.
+    `;
+
+    try {
+        const result = await model.generateContent(prompt);
+        const insight = result.response.text();
+        console.log(result.response.text());
+        res.status(200).json({ insight });
+    } catch (error) {
+        console.error('Error generating insights:', error);
+        res.status(500).json({ message: 'Failed to generate insights' });
+    }
+});
 
 router.get('/city/:city', async (req, res) => {
     const { city } = req.params;
@@ -46,6 +74,23 @@ router.post('/sendAlertEmail', async (req, res) => {
     } catch (error) {
         console.error('Error sending email:', error);
         res.status(500).json({ message: 'Failed to send email' });
+    }
+});
+
+// Route to get historical weather data for the last day
+router.get('/historical/:city', async (req, res) => {
+    const { city } = req.params;
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours ago
+
+    try {
+        const CityWeatherModel = getCityWeatherModel(city);
+        const summaries = await CityWeatherModel.find({ date: { $gte: oneDayAgo } }).sort({ date: 1 }); // Sort by date
+        if (summaries.length === 0) {
+            return res.status(404).json({ message: 'No historical data available for this city.' });
+        }
+        res.status(200).json(summaries);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 
