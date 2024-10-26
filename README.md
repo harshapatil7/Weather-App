@@ -223,6 +223,8 @@ http://localhost:3000/
 
 ## Demo Video
 
+[Watch the video](Weather-App.mp4)
+
 ## Visualizations
 
 Describe the various visualizations present in the frontend, such as:
