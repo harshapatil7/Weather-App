@@ -223,7 +223,7 @@ http://localhost:3000/
 
 ## Demo Video
 
-[Watch the video](Weather-App.mp4)
+https://github.com/user-attachments/assets/b591b517-c09c-440c-99f1-315ebb70e94a
 
 ## Visualizations
 
