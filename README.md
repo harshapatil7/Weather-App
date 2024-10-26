@@ -25,7 +25,6 @@ List the main features of the application, such as:
   * Historical weather data analysis and insights
   * Dynamic rule-based alert system
   * Visualizations of weather parameters (temperature, humidity, wind speed, etc.)
-  * AI-generated insights based on historical data
 
 ## Technologies Used
 
